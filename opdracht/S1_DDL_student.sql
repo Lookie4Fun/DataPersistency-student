@@ -140,10 +140,10 @@ ORDER BY resultaat;
 
 
 -- Draai alle wijzigingen terug om conflicten in komende opdrachten te voorkomen.
--- DROP TABLE IF EXISTS adressen;
--- UPDATE medewerkers SET afd = NULL WHERE mnr < 7369 OR mnr > 7934;
--- UPDATE afdelingen SET hoofd = NULL WHERE anr > 40;
--- DELETE FROM afdelingen WHERE anr > 40;
--- DELETE FROM medewerkers WHERE mnr < 7369 OR mnr > 7934;
--- ALTER TABLE medewerkers DROP CONSTRAINT IF EXISTS m_geslacht_chk;
--- ALTER TABLE medewerkers DROP COLUMN IF EXISTS geslacht;
+DROP TABLE IF EXISTS adressen;
+UPDATE medewerkers SET afd = NULL WHERE mnr < 7369 OR mnr > 7934;
+UPDATE afdelingen SET hoofd = NULL WHERE anr > 40;
+DELETE FROM afdelingen WHERE anr > 40;
+DELETE FROM medewerkers WHERE mnr < 7369 OR mnr > 7934;
+ALTER TABLE medewerkers DROP CONSTRAINT IF EXISTS m_geslacht_chk;
+ALTER TABLE medewerkers DROP COLUMN IF EXISTS geslacht;
