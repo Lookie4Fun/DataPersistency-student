@@ -34,7 +34,8 @@
 -- die ervoor zorgt dat alleen 'M' of 'V' als geldige waarde wordt
 -- geaccepteerd. Test deze regel en neem de gegooide foutmelding op als
 -- commentaar in de uitwerking.
-
+alter table medewerkers
+add geslacht varchar (1) constraint m_geslacht_chk check (geslacht in ('M', 'F'));
 
 -- S1.2. Nieuwe afdeling
 --
@@ -43,6 +44,15 @@
 -- nieuwe medewerker A DONK aangenomen. Hij krijgt medewerkersnummer 8000
 -- en valt direct onder de directeur.
 -- Voeg de nieuwe afdeling en de nieuwe medewerker toe aan de database.
+
+insert into medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm, afd, geslacht)
+values (8000,'Donk','A','ONDERZOEK',7839,'07-09-1999', 3000,null,10,'M');
+
+insert into afdelingen (anr, naam, locatie, hoofd)
+values (50, 'ONDERZOEK', 'LEIDEN', 8000);
+
+
+
 
 
 -- S1.3. Verbetering op afdelingentabel
@@ -55,6 +65,23 @@
 --   c) Op enig moment gaat het mis. De betreffende kolommen zijn te klein voor
 --      nummers van 3 cijfers. Los dit probleem op.
 
+create sequence afdeling_seq
+    increment 10
+    start 50
+    minvalue 10
+    maxvalue 100000000
+    cache 1;
+
+alter table afdelingen
+alter column anr set default nextval('afdeling_seq');
+
+insert into afdelingen (anr, naam, locatie, hoofd)
+values (nextval('afdeling_seq'), 'BEVEILIGING', 'AMSTERDAM', 8000),
+       (nextval('afdeling_seq'),' CHAUFEUR', 'AMSTERDAM', 8000),
+       (nextval('afdeling_seq'), 'SCHOONMAAK', 'LEIDEN', 8000);
+
+alter table afdelingen
+alter column anr type NUMERIC(5);
 
 -- S1.4. Adressen
 --
@@ -68,6 +95,18 @@
 --    einddatum     moet na de ingangsdatum liggen
 --    telefoon      10 cijfers, uniek
 --    med_mnr       FK, verplicht
+CREATE TABLE adressen
+(
+    postcode      varchar(6)     PRIMARY KEY,
+    huisnummer    VARCHAR(10)    ,
+    ingangsdatum  date           ,
+    einddatum     date           CONSTRAINT m_ingang_chk    CHECK (einddatum > ingangsdatum),
+    telefoon      varchar(10)     unique,
+    med_mnr      numeric(4)     references medewerkers deferrable
+);
+
+insert into adressen(postcode, huisnummer, ingangsdatum, einddatum, telefoon, med_mnr)
+VALUES ('2464XZ', '63', '11-9-2022', '12-9-2022', 0649405320, '8000');
 
 
 -- S1.5. Commissie
@@ -101,10 +140,10 @@ ORDER BY resultaat;
 
 
 -- Draai alle wijzigingen terug om conflicten in komende opdrachten te voorkomen.
-DROP TABLE IF EXISTS adressen;
-UPDATE medewerkers SET afd = NULL WHERE mnr < 7369 OR mnr > 7934;
-UPDATE afdelingen SET hoofd = NULL WHERE anr > 40;
-DELETE FROM afdelingen WHERE anr > 40;
-DELETE FROM medewerkers WHERE mnr < 7369 OR mnr > 7934;
-ALTER TABLE medewerkers DROP CONSTRAINT IF EXISTS m_geslacht_chk;
-ALTER TABLE medewerkers DROP COLUMN IF EXISTS geslacht;
+-- DROP TABLE IF EXISTS adressen;
+-- UPDATE medewerkers SET afd = NULL WHERE mnr < 7369 OR mnr > 7934;
+-- UPDATE afdelingen SET hoofd = NULL WHERE anr > 40;
+-- DELETE FROM afdelingen WHERE anr > 40;
+-- DELETE FROM medewerkers WHERE mnr < 7369 OR mnr > 7934;
+-- ALTER TABLE medewerkers DROP CONSTRAINT IF EXISTS m_geslacht_chk;
+-- ALTER TABLE medewerkers DROP COLUMN IF EXISTS geslacht;
