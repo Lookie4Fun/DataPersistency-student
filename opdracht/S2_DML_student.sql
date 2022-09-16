@@ -31,7 +31,7 @@
 --
 -- Geef code en omschrijving van alle cursussen die precies vier dagen duren.
 DROP VIEW IF EXISTS s2_1; CREATE OR REPLACE VIEW s2_1 AS                                                     -- [TEST]
-select * from cursussen where lengte = 4;
+select code, omschrijving from cursussen where lengte = 4;
 
 
 -- S2.2. Medewerkersoverzicht
@@ -47,7 +47,7 @@ select * from medewerkers order by functie desc, gbdatum;
 -- Welke cursussen zijn in Utrecht en/of in Maastricht uitgevoerd? Geef
 -- code en begindatum.
 DROP VIEW IF EXISTS s2_3; CREATE OR REPLACE VIEW s2_3 AS                                                     -- [TEST]
-select * from uitvoeringen where locatie in ('UTRECHT', 'MAASTRICHT');
+select cursus, begindatum from uitvoeringen where locatie in ('UTRECHT', 'MAASTRICHT');
 
 
 -- S2.4. Namen
@@ -62,7 +62,7 @@ select naam, voorl from medewerkers except select naam, voorl from medewerkers w
 -- komende 2 maart. De cursus wordt gegeven in Leerdam door Nick Smit.
 -- Voeg deze gegevens toe.
 insert into uitvoeringen(cursus, begindatum, docent, locatie)
-values ('S02','02-03-2023', 7902, 'LEERDAM');
+values ('S02','02-03-2023', 7902, 'LEERDAM')
 ON CONFLICT DO NOTHING;                                                                              -- [TEST]
 
 
@@ -70,8 +70,8 @@ ON CONFLICT DO NOTHING;                                                         
 --
 -- Neem één van je collega-studenten aan als stagiair ('STAGIAIR') en
 -- voer zijn of haar gegevens in. Kies een personeelnummer boven de 8000.
-insert into medewerkers(mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm, afd, geslacht)
-values (8100, 'VAN LEIJDEN', 'T', 'STAGIAIR', 7839, '05-05-2007', 0, null, 10, 'M');
+insert into medewerkers(mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm, afd)
+values (8100, 'VAN LEIJDEN', 'T', 'STAGIAIR', 7839, '05-05-2007', 0, null, 10)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
@@ -80,7 +80,7 @@ ON CONFLICT DO NOTHING;                                                         
 -- We breiden het salarissysteem uit naar zes schalen. Voer een extra schaal in voor mensen die
 -- tussen de 3001 en 4000 euro verdienen. Zij krijgen een toelage van 500 euro.
 insert into schalen(snr,ondergrens,bovengrens,toelage)
-values (6, 3001, 4000, 500);
+values (6, 3001, 4000, 500)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
@@ -90,22 +90,22 @@ ON CONFLICT DO NOTHING;                                                         
 -- Voeg deze cursus met code 'D&P' toe, maak twee uitvoeringen in Leerdam en schrijf drie
 -- mensen in.
 insert into cursussen(code,omschrijving, type,lengte)
-values ('D&P', 'leren omgaan met een Database', 'BLD', 6);
+values ('D&P', 'leren omgaan met een Database', 'BLD', 6)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 insert into uitvoeringen(cursus, begindatum, docent, locatie)
-values ('D&P','20-09-2023', 7902, 'UTRECHT');
+values ('D&P','20-09-2023', 7902, 'UTRECHT')
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 insert into uitvoeringen(cursus, begindatum, docent, locatie)
-values ('D&P','25-09-2023', 7902, 'UTRECHT');
+values ('D&P','25-09-2023', 7902, 'UTRECHT')
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 insert into inschrijvingen(cursist,cursus, begindatum, evaluatie)
-values ('7934','D&P', '20-09-2023', 5);
+values ('7934','D&P', '20-09-2023', 5)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 insert into inschrijvingen(cursist,cursus, begindatum, evaluatie)
-values ('7788','D&P', '20-09-2023', 4);
+values ('7788','D&P', '20-09-2023', 4)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 insert into inschrijvingen(cursist,cursus, begindatum, evaluatie)
-values ('7499','D&P', '25-09-2023', 1);
+values ('7499','D&P', '25-09-2023', 1)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
@@ -133,12 +133,12 @@ delete from medewerkers where mnr = '7654';
 -- Je wordt hoofd van de nieuwe afdeling 'FINANCIEN' te Leerdam,
 -- onder de hoede van De Koning. Kies een personeelnummer boven de 8000.
 -- Zorg voor de juiste invoer van deze gegevens.
-insert into medewerkers(mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm, afd, geslacht)
-values (8200, 'DE HEIJ', 'N', 'MANAGER', 7839, '07-01-2001', 3000, null, 10, 'M');
+insert into medewerkers(mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm, afd)
+values (8200, 'DE HEIJ', 'N', 'MANAGER', 7839, '07-01-2001', 3000, null, 10)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 insert into afdelingen(anr, naam, locatie, hoofd)
-values (nextval('afdeling_seq'), 'FINANCIEN', 'LEERDAM', 8200);
+values (60, 'FINANCIEN', 'LEERDAM', 8200)
 ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
