@@ -49,6 +49,7 @@ on(u.begindatum = i.begindatum and i.cursus = 'S02')
 left join medewerkers b
 on (b.mnr = u.docent );
 
+
 -- S3.3.
 -- Geef elke afdeling (`afdeling`) met de naam van het hoofd van die
 -- afdeling (`hoofd`).
