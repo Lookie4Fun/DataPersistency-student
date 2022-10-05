@@ -45,9 +45,10 @@ select distinct a.naam cursist, b.naam docent from medewerkers a
 join inschrijvingen i
 on (a.mnr = i.cursist )
 inner join uitvoeringen u
-on(u.begindatum = i.begindatum and i.cursus = 'S02')
+on(u.begindatum = i.begindatum )
 left join medewerkers b
-on (b.mnr = u.docent );
+on (b.mnr = u.docent )
+where(i.cursus = 'S02');
 
 
 -- S3.3.
