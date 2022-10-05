@@ -37,7 +37,6 @@ on (c.code = u.cursus)
 join medewerkers m
 on (m.mnr = u.docent);
 
-
 -- S3.2.
 -- Geef in twee kolommen naast elkaar de achternaam van elke cursist (`cursist`)
 -- van alle S02-cursussen, met de achternaam van zijn cursusdocent (`docent`).
