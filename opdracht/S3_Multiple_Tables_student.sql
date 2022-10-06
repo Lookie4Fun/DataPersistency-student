@@ -44,11 +44,11 @@ on (m.mnr = u.docent);
 DROP VIEW IF EXISTS s3_2; CREATE OR REPLACE VIEW s3_2 AS                                                     -- [TEST]
 select distinct a.naam cursist, b.naam docent from medewerkers a
 join inschrijvingen i
-on (a.mnr = i.cursist and i.cursus = 'S02')
+on (a.mnr = i.cursist )
 inner join uitvoeringen u
-on(u.begindatum = i.begindatum)
+on(u.begindatum = i.begindatum and i.cursus = 'S02')
 left join medewerkers b
-on (b.mnr = u.docent and i.cursus = 'S02');
+on (b.mnr = u.docent );
 
 -- S3.3.
 -- Geef elke afdeling (`afdeling`) met de naam van het hoofd van die

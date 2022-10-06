@@ -8,7 +8,7 @@
 -- André Donk (andre.donk@hu.nl)
 --
 --
--- Voer dit 'testsuite'-bestand uit op de aangemaakte 'bedijf' database.
+-- Voer dit 'testsuite'-bestand uit op de  'bedijf' database.
 -- Daarna kun je de opdrachten (b.v. S2_CRUD_student.sql) openen in
 -- pgAdmin of een andere IDE. Na het maken van de opdrachten kun je je
 -- uitwerkingen (grotendeels) testen. Zie het commentaar in de opdrachten
