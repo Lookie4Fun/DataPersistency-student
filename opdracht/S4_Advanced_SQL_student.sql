@@ -40,7 +40,7 @@ HAVING DATE_PART('year',gbdatum) < 1980 AND (functie = 'TRAINER'or functie ='VER
 DROP VIEW IF EXISTS s4_2; CREATE OR REPLACE VIEW s4_2 AS                                                     -- [TEST]
 SELECT naam FROM medewerkers
 WHERE naam LIKE '%DE %'
-OR naam LIKE '%VAN DER %'
+   OR naam LIKE '%VAN DER %'
    OR naam LIKE '%DEN %';
 
 -- S4.3.
@@ -49,12 +49,12 @@ OR naam LIKE '%VAN DER %'
 DROP VIEW IF EXISTS s4_3; CREATE OR REPLACE VIEW s4_3 AS                                                     -- [TEST]
 SELECT c.code, u.begindatum, COUNT(cursist) AS aantal_inschrijvingen
 FROM uitvoeringen u
-LEFT JOIN inschrijvingen i
-ON( i.begindatum = u.begindatum )
-LEFT JOIN cursussen c
-ON(c.code = i.cursus)
+         LEFT JOIN inschrijvingen i
+                   ON( i.begindatum = u.begindatum )
+         LEFT JOIN cursussen c
+                   ON(c.code = i.cursus)
 GROUP BY c.code , u.begindatum, u.cursus
-HAVING DATE_PART('year',u.begindatum) = 2019 AND COUNT(cursist) > 2; 
+HAVING DATE_PART('year',u.begindatum) = 2019 AND COUNT(cursist) > 2;
 
 
 -- S4.4.
@@ -63,8 +63,8 @@ HAVING DATE_PART('year',u.begindatum) = 2019 AND COUNT(cursist) > 2;
 DROP VIEW IF EXISTS s4_4; CREATE OR REPLACE VIEW s4_4 AS                                                     -- [TEST]                                         -- [TEST]
 SELECT mnr,i.cursus
 FROM medewerkers m
-JOIN inschrijvingen i
-ON (i.cursist = m.mnr)
+         JOIN inschrijvingen i
+              ON (i.cursist = m.mnr)
 GROUP BY mnr,cursus
 HAVING COUNT(mnr)>1;
 
@@ -90,7 +90,7 @@ group by cursus;
 -- Je mag hierbij aannemen dat elk jaar 365 dagen heeft.
 DROP VIEW IF EXISTS s4_6; CREATE OR REPLACE VIEW s4_6 AS                                                     -- [TEST]
 select DATE_PART('year', max(m.gbdatum)) - DATE_PART('year', Min(m.gbdatum)) as verschil ,
-avg(DATE_PART('year', current_date)-DATE_PART('year', m.gbdatum)) as gemmideld
+       avg(DATE_PART('year', current_date)-DATE_PART('year', m.gbdatum)) as gemmideld
 from medewerkers m;
 
 -- S4.7.
@@ -99,11 +99,11 @@ from medewerkers m;
 -- krijgen (`commissie_medewerkers`), en hoeveel dat gemiddeld
 -- per verkoper is (`commissie_verkopers`).
 DROP VIEW IF EXISTS s4_7; CREATE OR REPLACE VIEW s4_7 AS                                                     -- [TEST]
-SELECT COUNT(m.mnr) as aantal_medewerkers, 
-AVG(m.comm) as commissie_medewerkers, 
-AVG(m.comm) / SUM(CASE WHEN functie = 'VERKOPER' THEN 1 ELSE 0 END) AS commissie_verkopers
+SELECT COUNT(m.mnr) as aantal_medewerkers,
+       AVG(m.comm) as commissie_medewerkers,
+       AVG(m.comm) / SUM(CASE WHEN functie = 'VERKOPER' THEN 1 ELSE 0 END) AS commissie_verkopers
 FROM medewerkers m;
- 
+
 
 -- -------------------------[ HU TESTRAAMWERK ]--------------------------------
 -- Met onderstaande query kun je je code testen. Zie bovenaan dit bestand

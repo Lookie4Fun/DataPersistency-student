@@ -37,7 +37,6 @@ on (c.code = u.cursus)
 join medewerkers m
 on (m.mnr = u.docent);
 
-
 -- S3.2.
 -- Geef in twee kolommen naast elkaar de achternaam van elke cursist (`cursist`)
 -- van alle S02-cursussen, met de achternaam van zijn cursusdocent (`docent`).
@@ -46,9 +45,11 @@ select distinct a.naam cursist, b.naam docent from medewerkers a
 join inschrijvingen i
 on (a.mnr = i.cursist )
 inner join uitvoeringen u
-on(u.begindatum = i.begindatum and i.cursus = 'S02')
+on(u.begindatum = i.begindatum )
 left join medewerkers b
-on (b.mnr = u.docent );
+on (b.mnr = u.docent )
+where(i.cursus = 'S02');
+
 
 -- S3.3.
 -- Geef elke afdeling (`afdeling`) met de naam van het hoofd van die
