@@ -24,7 +24,7 @@ CREATE OR REPLACE VIEW personeel AS
 SELECT mnr, medewerker, functie, cursus FROM deelnemers d
     JOIN personeel p
     ON d.cursist = p.mnr
-    WHERE p.afd = 20
+    WHERE p.afd = 20;
 -- 3. Is de view "deelnemers" updatable ? Waarom ?
 -- nee, omdat het bestaat uit twee verschillende tafels die gejoined zijn.
 
