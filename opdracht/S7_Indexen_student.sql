@@ -122,16 +122,39 @@ order by verkoper, levertijd desc;
 -- "                    Index Cond: (order_id = orders.order_id)"
 
 -- 2. Kijk of je met 1 of meer indexen de query zou kunnen versnellen
--- kan ik niet vinden
+-- een index maken op quantity
+-- een index maken op order_id
+
 
 -- 3. Maak de index(en) aan en run nogmaals het EXPLAIN plan (kopieer weer onder de opdracht)
+-- CREATE INDEX ord_quantity ON order_lines(quantity);
+-- CREATE INDEX ord_id ON orders(order_id);
+
+-- "Sort  (cost=4856.15..4856.98 rows=332 width=32)"
+-- "  Sort Key: o.salesperson_person_id, (age((o.expected_delivery_date)::timestamp with time zone, (o.order_date)::timestamp with time zone)) DESC"
+-- "  ->  Nested Loop  (cost=2298.05..4842.25 rows=332 width=32)"
+-- "        Join Filter: (l.order_id = o.order_id)"
+-- "        ->  Hash Join  (cost=2297.76..4672.98 rows=332 width=12)"
+-- "              Hash Cond: (orders.order_id = l.order_id)"
+-- "              ->  Seq Scan on orders  (cost=0.00..2187.91 rows=24532 width=4)"
+-- "                    Filter: (((expected_delivery_date - order_date))::numeric > 1.45)"
+-- "              ->  Hash  (cost=2285.32..2285.32 rows=995 width=8)"
+-- "                    ->  Bitmap Heap Scan on order_lines l  (cost=12.01..2285.32 rows=995 width=8)"
+-- "                          Recheck Cond: (quantity > 250)"
+-- "                          ->  Bitmap Index Scan on ord_quantity  (cost=0.00..11.76 rows=995 width=0)"
+-- "                                Index Cond: (quantity > 250)"
+-- "        ->  Index Scan using pk_sales_orders on orders o  (cost=0.29..0.49 rows=1 width=16)"
+-- "              Index Cond: (order_id = orders.order_id)"
+
+
 -- 4. Wat voor verschillen zie je? Verklaar hieronder.
+--  de duur van de query is korter geworden, omdat het nu niet helemaal door de grote lijsten van orders en orderlines heen moet gaan om de waardes te vinden.
+--  door de index kan de query beginnen met zoeken bij de waardes die dichter in de buurt zijn van de opgevraagde waardes
 
 
 
 -- S7.3.C
---
 -- Zou je de query ook heel anders kunnen schrijven om hem te versnellen?
--- waarscijnlijk als je ook de subquery via indexen laat werken dat het dan sneller zal zijn
+-- ik kan niet een manier bedenken waar de query sneller op zou werken
 
 
